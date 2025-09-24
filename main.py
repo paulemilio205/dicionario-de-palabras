@@ -2,6 +2,10 @@ import discord
 from discord.ext import commands
 import random
 
+# Emojis para las tragamonedas
+emojis = ["🍒", "🍋", "🍉", "⭐", "🍇", "🔔", "💎"]
+
+
 frases = [
     "💡 Nunca es tarde para empezar de nuevo.",
     "🔥 Si puedes soñarlo, puedes lograrlo.",
@@ -75,7 +79,29 @@ async def dato(ctx):
 async def frase(ctx):
     await ctx.send(random.choice(frases))
 
+@bot.event
+async def on_member_join(member):
+    # Buscar canal llamado "bienvenida"
+    channel = discord.utils.get(member.guild.text_channels, name="bienvenida")
+    if channel:
+        await channel.send(f"🎉 Bienvenido/a {member.mention} al servidor **{member.guild.name}**!🚀 ")
+
+@bot.command()
+async def slots(ctx):
+    slot1 = random.choice(emojis)
+    slot2 = random.choice(emojis)
+    slot3 = random.choice(emojis)
+
+    resultado = f"| {slot1} | {slot2} | {slot3} |"
+
+    if slot1 == slot2 == slot3:
+        await ctx.send(f"🎰 {resultado} 🎰\n🎉 ¡Jackpot {ctx.author.mention}! Ganaste 🎉")
+    elif slot1 == slot2 or slot2 == slot3 or slot1 == slot3:
+        await ctx.send(f"🎰 {resultado} 🎰\n✨ Casi lo logras {ctx.author.mention}, dos iguales ✨")
+    else:
+        await ctx.send(f"🎰 {resultado} 🎰\n😢 Mala suerte {ctx.author.mention}, inténtalo de nuevo.")
 
 
 
-bot.run("your token here :)")
+
+bot.run("your token here  :)")
