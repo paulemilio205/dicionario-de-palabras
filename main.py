@@ -78,4 +78,4 @@ async def frase(ctx):
 
 
 
-bot.run("your bot here")
+bot.run("your token here :)")
